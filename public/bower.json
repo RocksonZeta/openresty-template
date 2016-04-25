@@ -1,0 +1,20 @@
+{
+  "name": "template",
+  "version": "0.0.1",
+  "authors": [
+    "RocksonZeta <rocksonzeta@gmail.com>"
+  ],
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "**/*.txt",
+    ".sass-cache",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
