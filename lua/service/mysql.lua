@@ -10,7 +10,7 @@ function _M.get_cli()
         return
     end
     db:set_timeout(3000) -- 1 sec
-	local ok, err, errno, sqlstate = db:connect(CONF.mysql_iqidao)
+	local ok, err, errno, sqlstate = db:connect(CONF.mysql)
 
     if not ok then
         log.error("failed to connect: ", err, ": ", errno, " ", sqlstate)

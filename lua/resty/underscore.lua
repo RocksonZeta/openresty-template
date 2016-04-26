@@ -446,7 +446,7 @@ function _M.is_not_empty_str(str)
 	return not _M.is_empty_str(str)
 end
 function _M.is_empty_str(str)
-	if nil ==str or '' == str then return true end;
+	if nil ==str or '' == str or _M.is_userdata_nil(str) then return true end;
 	for i=1,#str do
 		if not _M.is_whitespace_byte(string.byte(str,i)) then return false end
 	end

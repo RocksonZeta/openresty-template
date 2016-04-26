@@ -2,9 +2,10 @@
 --version: 0.0.1
 
 local _M = require "resty.mysql"
+local log = require "resty.log"
 
 -- {name} -> 'name'
-local function escape_sql(sql , params)
+function _M.escape_sql(sql , params)
 	if nil == params then
 		return sql
 	end
@@ -30,16 +31,10 @@ function _M.escape_value(value)
 end
 
 function _M:q(sql,params,rows)
-	if nil == params then
-		return self:query(sql)
-	end
-	if 'number' == type(params) then
-		return self:query(sql,params)
-	end
-	local esql = escape_sql(sql,params);
+	local esql = _M.escape_sql(sql,params);
 	local r, err, errno, sqlstate = self:query(esql , rows)
 	if err~=nil then 
-		--ngx.log(ngx.ERR,string.format("sql:%s,%s,errno:%d,sqlstate:%s",esql,err,errno,sqlstate))
+		log.error(string.format("sql:%s,%s,errno:%d,sqlstate:%s",esql,err,errno,sqlstate))
 		return nil , {err=err ,errno=errno, sqlstate=sqlstate}
 	end
 	return r
@@ -50,9 +45,9 @@ function _M:q1(sql,params)
 	if e then return nil ,e end;
 	if nil == r or ngx.null==r then return nil end
 	if r and 'table' == type(r) and #r>0 then 
-		-- if #r>1 then
-		-- 	ngx.log(ngx.WARN,string.format("rultset size >1 in q1,%s",escape_sql(sql,params)))
-		-- end
+		if #r>1 then
+			log.warn(string.format("rultset size >1 in q1,%s",_M.escape_sql(sql,params)))
+		end
 		return r[1]
 	else
 		for k,v in pairs(r) do
@@ -63,11 +58,11 @@ function _M:q1(sql,params)
 end
 
 function _M:qs(sqls , params) 
-	local esql = escape_sql(sqls,params);
+	local esql = _M.escape_sql(sqls,params);
     local rs = {}
 	local r, err, errno, sqlstate = self:query(esql)
-    if not r then
-        -- ngx.log(ngx.ERR, "bad result #1: ", err, ": ", errno, ": ", sqlstate, ".")
+    if err then
+        log.error(string.format("sql:%s,%s,errno:%d,sqlstate:%s",esql,err,errno,sqlstate))
         return nil , {err=err ,errno=errno, sqlstate=sqlstate}
     end
     table.insert(rs,r)
@@ -75,7 +70,7 @@ function _M:qs(sqls , params)
     while err == "again" do
         r, err, errno, sqlstate = self:read_result()
         if not r then
-            -- ngx.log(ngx.ERR, "bad result #", i, ": ", err, ": ", errno, ": ", sqlstate, ".")
+            log.error(string.format("sql:%s,%s,errno:%d,sqlstate:%s",esql,err,errno,sqlstate))
             return nil , {err=err ,errno=errno, sqlstate=sqlstate}
         end
         i = i+1

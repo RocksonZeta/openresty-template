@@ -1,0 +1,11 @@
+
+	"src":{
+		"RocksonZeta/vicky":"lib/resty/vicky.lua",
+		"RocksonZeta/underscore":["lib/resty/underscore.lua"],
+		"bungle/lua-resty-session":["lib/resty/session.lua"],
+		"bungle/lua-resty-template":["lib/resty/template.lua","lib/resty/template/html.lua","lib/resty/template/microbenchmark.lua"],
+		"openresty/lua-resty-mysql":"lib/resty/mysql.lua",
+		"openresty/lua-resty-redis":"lib/resty/redis.lua",
+		"cloudflare/lua-resty-cookie":["lib/resty/cookie.lua"],
+		"antonheryanto/lua-resty-post":"lib/resty/post.lua",
+	}

@@ -1,0 +1,22 @@
+{
+	"name":"openresty-template",
+	"version":"0.0.1",
+	"description":"A template for openresty web project",
+	"main":"lua/init.lua",
+	"script":{
+		"test":"",
+		"package":"py/fabfile.py"
+	},
+	"repository":"RocksonZeta/openresty-template",
+	"license":"MIT",
+	"dependencies":{
+		"RocksonZeta/vicky":"0.0.1",
+		"RocksonZeta/underscore":"0.0.1",
+		"bungle/lua-resty-session":"2.1",
+		"bungle/lua-resty-template":"1.6",
+		"openresty/lua-resty-mysql":"0.15",
+		"openresty/lua-resty-redis":"0.22",
+		"cloudflare/lua-resty-cookie":"v0.1.0",
+		"antonheryanto/lua-resty-post":"*"
+	}
+}

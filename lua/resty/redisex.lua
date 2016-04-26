@@ -1,4 +1,5 @@
 --file:redisex.lua
+local log = require "resty.log"
 local json = require('cjson')
 local _M = {}
 
@@ -23,7 +24,8 @@ end
 
 function _M:get(k)
 	local r,e= self.redis:get(k)
-	if e then 
+	if e then
+		log.error("redisex get failed ",e)
 		return nil,e
 	end
 	if ngx.null == r then
@@ -39,7 +41,8 @@ function _M:set(k,v)
 	else
 		ok,e= self.redis:setex(k,self.expire,v)
 	end
-	if e then 
+	if e then
+		log.error("redisex set failed ",e)
 		return nil,e
 	end
 	return ok
@@ -47,7 +50,8 @@ end
 
 function _M:get_json(k) 
 	local r,e = self:get(k)
-	if nil ==r then
+	if e then
+		log.error("redisex get_json failed ",e)
 		return nil,e
 	end
 	local r = json.decode(r)
@@ -64,7 +68,8 @@ function _M:set_json(k,v)
 	else
 		ok,e= self.redis:setex(k,self.expire,jv)
 	end
-	if e then 
+	if e then
+		log.error("redisex set_json failed ",e)
 		return nil,e
 	end
 	return ok
@@ -76,7 +81,8 @@ function _M:hmset_json(k,v)
 		r[i] = json.encode(j)
 	end
 	local ok,e= self.redis:hmset(k,r)
- 	if e then 
+ 	if e then
+ 		log.error("redisex hmset_json failed ",e)
 		return nil,e
 	end
 	if nil ~= self.expire then
@@ -87,7 +93,8 @@ end
 
 function _M:hmget_json(k)
 	local r ,e = self.redis:hgetall(k)
-	if e then 
+	if e then
+		log.error("redisex hmget_json failed ",e)
 		return nil,e
 	end
 	if ngx.null == r or 0 == #r then
