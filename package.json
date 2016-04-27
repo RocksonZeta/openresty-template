@@ -16,7 +16,8 @@
 		"bungle/lua-resty-template":"1.6",
 		"openresty/lua-resty-mysql":"0.15",
 		"openresty/lua-resty-redis":"0.22",
-		"cloudflare/lua-resty-cookie":"v0.1.0",
+		"openresty/lua-resty-websocket":"0.05",
+		"cloudflare/lua-resty-cookie":"0.1.0",
 		"antonheryanto/lua-resty-post":"*"
 	}
 }
